@@ -2,10 +2,10 @@ package cn.cjn.test2.controller;
 
 import cn.cjn.test2.feignInterface.FeignInterface;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Title:
@@ -27,11 +27,22 @@ public class UserController {
      * @param name
      * @return
      */
-//    @RequestMapping("/hello/{name}")
-//    public String test(@PathVariable String name) {
-//        return "Hi," + name;
-//    }
+    @RequestMapping("/hello/{name}")
+    public String test(@PathVariable String name) {
+        return "Hi," + name;
+    }
 
+    @RequestMapping(value = "/getListData",method = RequestMethod.POST)
+    public List getListData(@RequestBody String list){
+        List data = new ArrayList();
+//        if(null != list && list.size()>0){
+//            for(int i=0;i<list.size();i++){
+//                data.add(i,list.get(i));
+//            }
+//        }
+        System.out.println("list:"+list);
+        return data;
+    }
     /**
      * feign测试
      * @return

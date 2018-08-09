@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
 /**
  * Title:
- * Description:
+ * Description:ribbon测试入口类
  * Copyright:
  * Company:
  * Project: SrpingBootTest
@@ -20,16 +23,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-//    @Autowired
-//    private RestfulServiceImpl restfulService;
+    @Autowired
+    private RestfulServiceImpl restfulService;
+    @Autowired
+    private  HttpServletRequest request;
 
-//    @GetMapping("/hello/{name}")
-//    public String test(@PathVariable String name) {
-//        return "name:" + name + ",msg:" + restfulService.getRestData(name);
-//    }
-
-    @RequestMapping(name = "getStr")
-    public String getStr(){
-        return "hello123";
+    @GetMapping("/hello/{name}")
+    public String test(@PathVariable String name) {
+        return "name:" + name + ",msg:" + restfulService.getRestData(name);
     }
+
+    @GetMapping("getListData")
+    public String getListData() {
+        return restfulService.getListData(request);
+    }
+
+//    @RequestMapping(name = "getStr")
+//    public String getStr(){
+//        return "hello123";
+//    }
 }
