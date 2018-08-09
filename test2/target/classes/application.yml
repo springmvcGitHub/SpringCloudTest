@@ -1,0 +1,13 @@
+server:
+  servlet:
+    context-path: /testB
+  port: 8092
+spring:
+  application:
+    name: s2
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8090/regist/eureka/

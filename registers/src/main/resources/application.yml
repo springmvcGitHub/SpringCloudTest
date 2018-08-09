@@ -1,0 +1,15 @@
+server:
+  servlet:
+    context-path: /regist
+  port: 8090
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka:  false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:${server.port}/regist/eureka/
+  server:
+    renewal-percent-threshold: 0.49
+    #enable-self-preservation: false

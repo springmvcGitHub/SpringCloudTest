@@ -1,0 +1,14 @@
+server:
+  servlet:
+    context-path: /testB
+  port: 8092
+spring:
+  application:
+    name: s2
+eureka:
+  client:
+    register-with-eureka: true
+    #是否检索服务,如果设置为false的话，可能会出现生产者404的情况
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8090/regist/eureka/
