@@ -1,5 +1,7 @@
 package cn.cjn.test1.service;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.HttpEntity;
@@ -30,25 +32,38 @@ public class RestfulServiceImpl {
     @Autowired
     private RestTemplate restTemplate;
 
+    /**
+     * 普通String传参
+     *
+     * @param name
+     * @return
+     */
     public String getRestData(String name) {
         String url = "http://S2/testB/hello/" + name;
         String resultMsg = restTemplate.getForObject(url, String.class);
         return resultMsg;
     }
 
-    public String getListData(HttpServletRequest request) {
-        List list = new ArrayList();
-        for (int i = 0; i < 5; i++) {
-            list.add(i, "a" + i);
-        }
+    /**
+     * ribbon测试,传递jsonObject
+     *
+     * @return
+     */
+    public String getListData() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("str", "testStr");
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.add("arr1");
+        jsonArray.add("arr2");
+        jsonObject.put("arr", jsonArray);
 
         String url = "http://S2/testB/getListData";
 
-        MultiValueMap<String,Object> parameters = new LinkedMultiValueMap<String,Object>();
+        MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<String, Object>();
         parameters.add("username", "aa");
-        parameters.add("password", list);
+        parameters.add("password", jsonObject.toString());
 
-        ResponseEntity<String> response = restTemplate.postForEntity( url, parameters , String.class );
+        ResponseEntity<String> response = restTemplate.postForEntity(url, parameters, String.class);
         String body = response.getBody();
         return body;
     }

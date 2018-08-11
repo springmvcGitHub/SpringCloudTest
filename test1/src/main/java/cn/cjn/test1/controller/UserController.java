@@ -35,7 +35,7 @@ public class UserController {
 
     @GetMapping("getListData")
     public String getListData() {
-        return restfulService.getListData(request);
+        return restfulService.getListData();
     }
 
 //    @RequestMapping(name = "getStr")

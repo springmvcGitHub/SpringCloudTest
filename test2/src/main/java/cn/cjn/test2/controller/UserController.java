@@ -1,7 +1,12 @@
 package cn.cjn.test2.controller;
 
 import cn.cjn.test2.feignInterface.FeignInterface;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,6 +29,7 @@ public class UserController {
 
     /**
      * ribbon测试
+     *
      * @param name
      * @return
      */
@@ -32,19 +38,24 @@ public class UserController {
         return "Hi," + name;
     }
 
-    @RequestMapping(value = "/getListData",method = RequestMethod.POST)
-    public List getListData(@RequestBody String list){
-        List data = new ArrayList();
-//        if(null != list && list.size()>0){
-//            for(int i=0;i<list.size();i++){
-//                data.add(i,list.get(i));
-//            }
-//        }
-        System.out.println("list:"+list);
-        return data;
+    /**
+     * ribbon测试,传递jsonObject
+     *
+     * @param data
+     * @return
+     */
+    @RequestMapping(value = "/getListData", method = RequestMethod.POST)
+    public String getListData(@RequestParam MultiValueMap<String, Object> data) {
+        List<?> jsonArray = null;
+        if (null != data) {
+            jsonArray = data.get("password");
+        }
+        return jsonArray.toString();
     }
+
     /**
      * feign测试
+     *
      * @return
      */
     @RequestMapping(value = "/getStr", method = RequestMethod.GET)
