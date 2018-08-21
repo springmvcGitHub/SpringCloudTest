@@ -33,7 +33,7 @@ public class RestfulServiceImpl {
     private RestTemplate restTemplate;
 
     /**
-     * 普通String传参
+     * 测试ribbon，消费者入口
      *
      * @param name
      * @return
@@ -45,7 +45,7 @@ public class RestfulServiceImpl {
     }
 
     /**
-     * ribbon测试,传递jsonObject
+     * ribbon测试,消费者入口，传递jsonObject
      *
      * @return
      */

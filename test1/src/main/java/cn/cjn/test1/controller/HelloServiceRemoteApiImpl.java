@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloServiceRemoteApiImpl implements HelloServiceRemoteApi {
 
+    /**
+     * feign测试，生产者
+     * @return
+     */
     @Override
     public String getStr() {
         return "hello world!";
