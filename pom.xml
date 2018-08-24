@@ -39,6 +39,11 @@
             <!--<version>1.4.0.RELEASE</version>-->
         <!--</dependency>-->
 
+        <!--日志配置-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
     </dependencies>
 
     <!--<repositories>-->
