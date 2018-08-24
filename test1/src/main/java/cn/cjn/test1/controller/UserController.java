@@ -1,12 +1,11 @@
 package cn.cjn.test1.controller;
 
 import cn.cjn.test1.service.RestfulServiceImpl;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -21,6 +20,7 @@ import java.util.Map;
  * Create Time:2018/8/3 18:24
  */
 @RestController
+@RequestMapping(value = "user")
 public class UserController {
 
     @Autowired
@@ -54,10 +54,20 @@ public class UserController {
      *
      * @return
      */
-    @RequestMapping(name = "getDbData")
+    @RequestMapping(value = "getDbData",method = RequestMethod.GET)
     public List<Map<String,Object>> getDbData() {
         String sql = "select * from appuser ";
         List<Map<String,Object>> list = jdbcTemplate.queryForList(sql);
         return list;
+    }
+
+    @RequestMapping(value = "addAppuser",method = RequestMethod.POST)
+    @ResponseBody
+    public String addAppuser(String nickName){
+        String insertSql = "INSERT appuser(nickName) VALUES('"+nickName+"');";
+        int count = jdbcTemplate.update(insertSql);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("count",count);
+        return jsonObject.toString();
     }
 }
