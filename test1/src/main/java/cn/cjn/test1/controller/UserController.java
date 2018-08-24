@@ -61,6 +61,12 @@ public class UserController {
         return list;
     }
 
+
+    /**
+     * 测试ribbon，测试数据库插入
+     *
+     * @return
+     */
     @RequestMapping(value = "addAppuser", method = RequestMethod.POST)
     @ResponseBody
     public String addAppuser(String nickName) {
