@@ -54,20 +54,20 @@ public class UserController {
      *
      * @return
      */
-    @RequestMapping(value = "getDbData",method = RequestMethod.GET)
-    public List<Map<String,Object>> getDbData() {
+    @RequestMapping(value = "getDbData", method = RequestMethod.GET)
+    public List<Map<String, Object>> getDbData() {
         String sql = "select * from appuser ";
-        List<Map<String,Object>> list = jdbcTemplate.queryForList(sql);
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
         return list;
     }
 
-    @RequestMapping(value = "addAppuser",method = RequestMethod.POST)
+    @RequestMapping(value = "addAppuser", method = RequestMethod.POST)
     @ResponseBody
-    public String addAppuser(String nickName){
-        String insertSql = "INSERT appuser(nickName) VALUES('"+nickName+"');";
+    public String addAppuser(String nickName) {
+        String insertSql = "INSERT appuser(nickName) VALUES('" + nickName + "');";
         int count = jdbcTemplate.update(insertSql);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("count",count);
+        jsonObject.put("count", count);
         return jsonObject.toString();
     }
 }
