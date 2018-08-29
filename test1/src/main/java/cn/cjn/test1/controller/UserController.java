@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,16 +30,23 @@ public class UserController {
 
     @Autowired
     private RestfulServiceImpl restfulService;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    @Qualifier(value = "primaryJdbcTemplate")
+    private JdbcTemplate primaryJdbcTemplate;
+
+    @Autowired
+    @Qualifier(value = "secondJdbcTemplate")
+    private JdbcTemplate secondJdbcTemplate;
 
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
 
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    private static BlockingQueue<String> blockingQueue = new LinkedBlockingQueue<>(20);
+    private static BlockingQueue<String> blockingQueue = new LinkedBlockingQueue<>(5);
 
     int flag = 0;
+
     /**
      * 测试ribbon，消费者入口
      *
@@ -68,7 +76,7 @@ public class UserController {
     @RequestMapping(value = "getDbData", method = RequestMethod.GET)
     public List<Map<String, Object>> getDbData() {
         String sql = "select * from appuser ";
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
+        List<Map<String, Object>> list = primaryJdbcTemplate.queryForList(sql);
         return list;
     }
 
@@ -116,6 +124,17 @@ public class UserController {
 //        }
 //    }
 
+    @RequestMapping(value = "addAppuser2", method = RequestMethod.POST)
+    @ResponseBody
+    public String addAppuser2(String nickName) {
+        String userKey = UUID.randomUUID().toString().replace("-", "");
+        String insertSql = "INSERT appuser(nickName,userKey,create_date) VALUES('" + nickName + "','" + userKey + "',NOW()) ";
+        int count = secondJdbcTemplate.update(insertSql);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("count", count);
+        return jsonObject.toString();
+    }
+
     /**
      * 测试ribbon，测试数据库插入
      *
@@ -126,7 +145,7 @@ public class UserController {
     public String addAppuser(String nickName) {
         String userKey = UUID.randomUUID().toString().replace("-", "");
         String insertSql = "INSERT appuser(nickName,userKey,create_date) VALUES('" + nickName + "','" + userKey + "',NOW()) ";
-        int count = jdbcTemplate.update(insertSql);
+        int count = primaryJdbcTemplate.update(insertSql);
         //updateInvite(userKey);
         blockingQueue.offer(userKey);
         new Thread(() -> updateInvite()).start();
@@ -136,7 +155,7 @@ public class UserController {
     }
 
     private void updateInvite() {
-        if(blockingQueue.size() == 0){
+        if (blockingQueue.size() == 0) {
             return;
         }
         String userKey = blockingQueue.poll();
@@ -144,18 +163,18 @@ public class UserController {
         int failCount = 0;  //计数器，防止出现异常情况进入死循环
         while (flag) {
             String queryIdSql = "SELECT inviteCode FROM appuser_invite WHERE `status`=0 LIMIT 1 ";
-            Map<String, Object> dataMap = jdbcTemplate.queryForMap(queryIdSql);
+            Map<String, Object> dataMap = primaryJdbcTemplate.queryForMap(queryIdSql);
             int inviteCode = 0;
             if (null != dataMap && null != dataMap.get("inviteCode")) {
                 inviteCode = Integer.parseInt(String.valueOf(dataMap.get("inviteCode")));
             }
             //实时更新数据库，先把当前这个inviteCode状态改为占用状态，
             String updateInviteSql = "UPDATE appuser_invite SET update_date=NOW(),`status`=1 WHERE `status`=0 AND inviteCode='" + inviteCode + "'";
-            int updateInviteFlag = jdbcTemplate.update(updateInviteSql);
+            int updateInviteFlag = primaryJdbcTemplate.update(updateInviteSql);
             int updateFlag = 0;
             if (updateInviteFlag > 0) {
                 String updateSql = "UPDATE appuser SET inviteCode='" + inviteCode + "' WHERE userKey='" + userKey + "' ";
-                updateFlag = jdbcTemplate.update(updateSql);
+                updateFlag = primaryJdbcTemplate.update(updateSql);
             } else {
                 logger.error("[--实时更新数据库邀请码表异常--],关键字:userKey_" + userKey + ",inviteCode:" + inviteCode + ",updateInviteSql:" + updateInviteSql);
             }
@@ -178,7 +197,7 @@ public class UserController {
     public String createInvite() {
         int count = 5000;
         String queryMaxIdSql = "SELECT MAX(id) AS maxId FROM appuser_invite ";
-        Map<String, Object> map = jdbcTemplate.queryForMap(queryMaxIdSql);
+        Map<String, Object> map = primaryJdbcTemplate.queryForMap(queryMaxIdSql);
         int maxId = 1;
         if (null != map) {
             maxId = null == map.get("maxId") ? 1 : Integer.parseInt(String.valueOf(map.get("maxId")));
@@ -188,7 +207,7 @@ public class UserController {
             int inviteCode = getInviteCode(String.valueOf(maxId));
             String insertSql = "INSERT appuser_invite(inviteCode,`status`,create_date) VALUES(" + inviteCode + ",0,NOW())";
 
-            int flag = jdbcTemplate.update(insertSql);
+            int flag = primaryJdbcTemplate.update(insertSql);
             if (flag > 0) {
                 resultCount++;
             }
@@ -264,4 +283,5 @@ public class UserController {
         }
         return result;
     }
+
 }

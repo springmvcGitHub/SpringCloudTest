@@ -2,6 +2,7 @@ package cn.cjn.test1.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -19,8 +20,9 @@ import org.springframework.web.client.RestTemplate;
  * Create User: TRS-chen
  * Create Time:2018/8/4 18:10
  */
-@SpringBootApplication
-@ComponentScan(basePackages={"cn.cjn.test1"})
+@SpringBootApplication(exclude = {JpaRepositoriesAutoConfiguration.class})
+//exclude = {JpaRepositoriesAutoConfiguration.class,//禁止springboot自动加载持久化bean
+@ComponentScan(basePackages = {"cn.cjn.test1"})
 @EnableEurekaClient
 @EnableFeignClients
 public class App {
@@ -31,7 +33,7 @@ public class App {
 
     @Bean
     @LoadBalanced
-    RestTemplate restTemplate(){
+    RestTemplate restTemplate() {
         return new RestTemplate();
     }
 }
