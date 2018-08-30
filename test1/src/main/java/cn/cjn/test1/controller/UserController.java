@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -128,6 +129,7 @@ public class UserController {
     @ResponseBody
     public String addAppuser2(String nickName) {
         String userKey = UUID.randomUUID().toString().replace("-", "");
+        nickName = "\uD83C\uDF3C 妙盒子\uD83C\uDF3C";
         String insertSql = "INSERT appuser(nickName,userKey,create_date) VALUES('" + nickName + "','" + userKey + "',NOW()) ";
         int count = secondJdbcTemplate.update(insertSql);
         JSONObject jsonObject = new JSONObject();
@@ -284,4 +286,8 @@ public class UserController {
         return result;
     }
 
+    @RequestMapping(value = "getStr", method = RequestMethod.GET)
+    public String getStr() {
+        return URLEncoder.encode("Hello world");
+    }
 }

@@ -12,3 +12,7 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8090/regist/eureka/
+#使用feign断路器必须增加该配置(Spring Cloud之前的Brixton版本中，Feign是缺省是自动激活了断路器的，但最近的Dalston版本已经将缺省配置修改为禁止)
+feign:
+  hystrix:
+    enabled:  true

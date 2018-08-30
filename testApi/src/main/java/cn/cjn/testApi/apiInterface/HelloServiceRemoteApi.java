@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Create User: TRS-chen
  * Create Time:2018/8/9 10:00
  */
-@RequestMapping("/hello-service-remote")
+//@RequestMapping("/hello-service-remote")
 public interface HelloServiceRemoteApi {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/getStr")
-    String getStr();
+    //@RequestMapping(method = RequestMethod.GET, value = "/getStr")
+    //String getStr();
 }

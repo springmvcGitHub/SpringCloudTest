@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
  * Create User: TRS-chen
  * Create Time:2018/8/9 10:08
  */
-@RestController
+//@RestController
 public class HelloServiceRemoteApiImpl implements HelloServiceRemoteApi {
 
     /**
      * feign测试，生产者
      * @return
      */
-    @Override
-    public String getStr() {
-        return "hello world!";
-    }
+//    @Override
+//    public String getStr() {
+//        return "hello world!";
+//    }
 }

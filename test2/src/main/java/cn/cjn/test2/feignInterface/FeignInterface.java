@@ -1,8 +1,10 @@
 package cn.cjn.test2.feignInterface;
 
-import cn.cjn.testApi.apiInterface.HelloServiceRemoteApi;
+import cn.cjn.test2.controller.FeignFailure;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Title:
@@ -13,8 +15,10 @@ import org.springframework.stereotype.Component;
  * Create User: TRS-chen
  * Create Time:2018/8/8 18:41
  */
-@FeignClient(value = "s1/testA")
+@FeignClient(value = "s1/testA",fallback = FeignFailure.class)
 @Component
-public interface FeignInterface extends HelloServiceRemoteApi {
+public interface FeignInterface {
 
+    @RequestMapping(method = RequestMethod.GET, value = "/user/getStr")
+    String getStr();
 }
