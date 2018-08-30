@@ -5,6 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Title:
@@ -19,6 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Component
 public interface FeignInterface {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/user/getStr")
-    String getStr();
+    @RequestMapping(method = RequestMethod.POST, value = "/user/getStr")
+    String getStr(@RequestParam("code") String code);
 }

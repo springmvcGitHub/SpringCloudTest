@@ -9,6 +9,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +61,8 @@ public class UserController {
      */
     @RequestMapping(value = "/getStr", method = RequestMethod.GET)
     public String getStr() {
-        return feignInterface.getStr();
+        String code = URLEncoder.encode("222_+&111");
+        String result = feignInterface.getStr(code);
+        return result;
     }
 }

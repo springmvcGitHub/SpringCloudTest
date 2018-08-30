@@ -286,8 +286,15 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping(value = "getStr", method = RequestMethod.GET)
-    public String getStr() {
-        return URLEncoder.encode("Hello world");
+    @RequestMapping(value = "getStr", method = RequestMethod.POST)
+    @ResponseBody
+    public String getStr(@RequestParam(value = "code") String code) {
+//        try {
+//            Thread.sleep(20000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+        System.out.println("------code"+code);
+        return code;
     }
 }

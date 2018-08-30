@@ -16,3 +16,8 @@ eureka:
 feign:
   hystrix:
     enabled:  true
+ribbon:
+  #请求处理的超时时间
+  ReadTimeout: 3000
+  #请求连接的超时时间
+  ConnectTimeout: 5000

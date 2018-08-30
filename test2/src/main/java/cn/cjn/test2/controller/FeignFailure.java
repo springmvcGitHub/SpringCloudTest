@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FeignFailure implements FeignInterface {
     @Override
-    public String getStr() {
-        return "我断路了~~~~~";
+    public String getStr(String code) {
+        return "我断路了~~~~~"+code;
     }
 }
