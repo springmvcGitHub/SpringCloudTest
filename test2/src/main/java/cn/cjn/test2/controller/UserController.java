@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,8 @@ public class UserController {
 
     @Autowired
     private FeignInterface feignInterface;
+    @Value("${aa}")
+    private String enabled;
 
     /**
      * ribbon测试
@@ -63,6 +66,6 @@ public class UserController {
     public String getStr() {
         String code = URLEncoder.encode("222_+&111");
         String result = feignInterface.getStr(code);
-        return result;
+        return result + enabled;
     }
 }

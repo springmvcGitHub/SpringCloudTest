@@ -21,3 +21,4 @@ ribbon:
   ReadTimeout: 3000
   #请求连接的超时时间
   ConnectTimeout: 5000
+aa: 11
