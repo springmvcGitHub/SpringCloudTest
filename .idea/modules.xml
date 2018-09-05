@@ -3,10 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SrpingBootTest.iml" filepath="$PROJECT_DIR$/SrpingBootTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/registers/registers.iml" filepath="$PROJECT_DIR$/registers/registers.iml" />
       <module fileurl="file://$PROJECT_DIR$/test1/test1.iml" filepath="$PROJECT_DIR$/test1/test1.iml" />
       <module fileurl="file://$PROJECT_DIR$/test2/test2.iml" filepath="$PROJECT_DIR$/test2/test2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/testApi/testApi.iml" filepath="$PROJECT_DIR$/testApi/testApi.iml" />
     </modules>
   </component>
 </project>
