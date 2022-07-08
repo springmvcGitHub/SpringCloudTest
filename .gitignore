@@ -1,25 +1,33 @@
-# Created by .ignore support plugin (hsz.mobi)
-### Example user template template
-### Example user template
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
-# IntelliJ project files
-.idea/
-/.idea/
-.idea/workspace.xml
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
 *.iml
-out
-gen
-overlays/
-*.log
-*.epoch
-*.lck
-/logs
-.studio
+*.ipr
 
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-*.class
-target
-# Package Files #
-*.jar
-*.war
-*.ear
+### VS Code ###
+.vscode/
